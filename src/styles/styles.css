@@ -187,9 +187,11 @@
 /* Estilos para la pantalla de Citas */
 .citas-container {
   padding: 2rem;
-  background-color: #f4f4f4; /* Color de fondo suave */
+  background-color: #f9f9f9; /* Color de fondo suave */
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centrar el contenedor */
 }
 
 .citas-title {
@@ -431,9 +433,13 @@
 /* Estilos para la pantalla de Pacientes */
 .pacientes-container {
   padding: 2rem;
-  background-color: #f4f4f4; /* Color de fondo suave */
+  background-color: #f9f9f9; /* Color de fondo suave */
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centrar el contenedor */
+
+  
 }
 
 .pacientes-title {
@@ -662,12 +668,15 @@
   background-color: #218838; /* Color más oscuro al pasar el mouse */
 }
 
+
 /* Estilos para la pantalla de Gestión de Empleados */
 .empleado-container {
   padding: 2rem;
-  background-color: #f4f4f4; /* Color de fondo suave */
+  background-color: #f9f9f9; /* Color de fondo suave */
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centrar el contenedor */
 }
 
 .empleado-title {
@@ -680,7 +689,7 @@
 .nuevo-empleado-button {
   padding: 10px 15px;
   margin-bottom: 1rem;
-  background-color: #28a745; /* Color verde */
+  background-color: #007bff; /* Color azul */
   color: white;
   border: none;
   border-radius: 5px;
@@ -693,9 +702,9 @@
 }
 
 .nuevo-empleado-button:hover {
-    background-color: #218838;
+  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .empleado-table {
@@ -704,14 +713,15 @@
   margin-top: 1rem;
 }
 
-.empleado-table th, .empleado-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
+.empleado-table th,
+.empleado-table td {
+  border: 1px solid #ddd; /* Borde suave */
+  padding: 12px; /* Espaciado en celdas */
   text-align: left;
 }
 
 .empleado-table th {
-  background-color: #007BFF; /* Color de fondo de encabezado */
+  background-color: #007bff; /* Color de fondo de encabezado */
   color: white;
 }
 
@@ -732,12 +742,12 @@
 }
 
 .empleado-table button.edit-button {
-  background-color: #007BFF; /* Color azul para editar */
+  background-color: #28a745; /* Color verde para editar */
   color: white;
 }
 
 .empleado-table button.edit-button:hover {
-  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  background-color: #218838; /* Color más oscuro al pasar el mouse */
 }
 
 .empleado-table button.delete-button {
@@ -748,6 +758,8 @@
 .empleado-table button.delete-button:hover {
   background-color: #c0392b; /* Color más oscuro al pasar el mouse */
 }
+
+
 
 /* Estilos para la pantalla de Registro de Nuevo Empleado */
 .nuevo-empleado-container {
