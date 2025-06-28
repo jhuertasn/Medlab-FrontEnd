@@ -20,6 +20,7 @@ const Navbar = () => {
         {rol === 'ADMIN' && (
           <>
         <Link to="/empleados" className="navbar-link">Empleados</Link>
+        <Link to="/medicos" className="navbar-link">Medicos</Link>
         </>
          )}
       </div>
