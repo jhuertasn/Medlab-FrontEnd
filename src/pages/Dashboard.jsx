@@ -76,7 +76,7 @@ const Dashboard = () => {
           <h3>Última Cita</h3>
           {datos.ultimaCita ? (
             <p>
-              {datos.ultimaCita.pacienteNombre} con {datos.ultimaCita.medicoNombre}<br />
+              {datos.ultimaCita.pacienteNombre} con Dr.{datos.ultimaCita.medicoNombre}<br />
               Fecha: {datos.ultimaCita.fecha} a las {datos.ultimaCita.hora}
             </p>
           ) : (
