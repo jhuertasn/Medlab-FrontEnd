@@ -1,69 +1,65 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../styles/styles.css'; // Asegúrate de que la ruta sea correcta
+import '../styles/styles.css';
 import { jwtDecode } from 'jwt-decode';
-
 
 function LoginForm() {
   const [usuario, setUsuario] = useState('');
   const [contraseña, setContraseña] = useState('');
+  const [errores, setErrores] = useState({});
   const [autenticado, setAutenticado] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) =>  {
-  e.preventDefault();
-
-  const auth = {
-    username: usuario,
-    password: contraseña,
+  const validarCampos = () => {
+    const nuevosErrores = {};
+    if (!usuario.trim()) nuevosErrores.usuario = 'El usuario es obligatorio.';
+    if (!contraseña.trim()) nuevosErrores.contraseña = 'La contraseña es obligatoria.';
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
   };
 
-  try {
-    // 1. Solicita el token
-    const response = await axios.post('http://localhost:8898/medlab/authenticate', auth);
-    const { token } = response.data;
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-    // 2. Decodifica el token
-    const decoded = jwtDecode(token);
-    console.log('Token decodificado:', decoded);
+    if (!validarCampos()) return;
 
-    const username = decoded.sub;
-    const roles = decoded.ROLE || decoded.roles || []; // ajusta según el contenido exacto del JWT
-          const rol = Array.isArray(roles)
+    const auth = {
+      username: usuario,
+      password: contraseña,
+    };
+
+    try {
+      const response = await axios.post('http://localhost:8898/medlab/authenticate', auth);
+      const { token } = response.data;
+
+      const decoded = jwtDecode(token);
+      const username = decoded.sub;
+      const roles = decoded.ROLE || decoded.roles || [];
+      const rol = Array.isArray(roles)
         ? roles[0].replace('ROLE_', '').toUpperCase()
         : roles.replace('ROLE_', '').toUpperCase();
 
-    // 3. Guarda token y datos en localStorage
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', username);
-     localStorage.setItem('rol', rol); // ADMIN o USER
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
+      localStorage.setItem('rol', rol);
 
-    // 4. Redirige al dashboard
-    setAutenticado(true);
-    navigate('/dashboard');
-
-  } catch (error) {
-    console.error('Error de autenticación:', error);
-    if (error.response) {
-      console.error('Error de backend:', error.response.data);
-    } else if (error.request) {
-      console.error('No se recibió respuesta del backend:', error.request);
-    } else {
-      console.error('Error al configurar la solicitud:', error.message);
+      setAutenticado(true);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error de autenticación:', error);
+      alert('Credenciales incorrectas');
     }
-  }
-};
+  };
 
-  // Redirige si ya está autenticado
   if (autenticado) {
-    return null; // evita renderizar el login (opcional si ya hiciste navigate)
+    return null;
   }
 
   return (
     <div className="login-container">
       <div className="login-form">
-        <div className="medical-icon">⚕️</div> {/* Icono médico opcional */}
+        <div className="medical-icon">⚕️</div>
         <h2 className="login-title">Acceso a MedLab</h2>
         <p className="login-subtitle">Sistema de gestión médica</p>
         <form onSubmit={handleLogin}>
@@ -75,7 +71,9 @@ function LoginForm() {
               value={usuario}
               onChange={(e) => setUsuario(e.target.value)}
               placeholder="Usuario"
+              className={errores.usuario ? 'input-error' : ''}
             />
+            {errores.usuario && <span className="error-message">{errores.usuario}</span>}
           </div>
           <div className="input-group">
             <label htmlFor="contraseña">Contraseña</label>
@@ -85,8 +83,13 @@ function LoginForm() {
               value={contraseña}
               onChange={(e) => setContraseña(e.target.value)}
               placeholder="Contraseña"
+              className={errores.contraseña ? 'input-error' : ''}
             />
+            {errores.contraseña && <span className="error-message">{errores.contraseña}</span>}
           </div>
+          <p style={{ marginTop: '1rem' }}>
+  <a href="/recuperar">¿Olvidaste tu contraseña?</a>
+</p>
           <button type="submit" className="login-button">Iniciar sesión</button>
         </form>
       </div>

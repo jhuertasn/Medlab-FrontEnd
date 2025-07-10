@@ -26,9 +26,8 @@ const EditarCita = () => {
   const [consultorios, setConsultorios] = useState([]);
   const [horarios, setHorarios] = useState([]);
 
+  const hoy = new Date().toISOString().split('T')[0];
 
-
-  // Cargar cita actual
   useEffect(() => {
     const cargarCita = async () => {
       try {
@@ -52,7 +51,6 @@ const EditarCita = () => {
     cargarCita();
   }, [id]);
 
-  // Cargar data general (igual que en nueva cita)
   useEffect(() => {
     const cargarDatos = async () => {
       try {
@@ -85,7 +83,7 @@ const EditarCita = () => {
     e.preventDefault();
 
     const payload = {
-      codigo: parseInt(id), // ✅ este campo es obligatorio
+      codigo: parseInt(id),
       fecha: formulario.fecha,
       hora: formulario.hora,
       paciente: { codigo: parseInt(formulario.pacienteId) },
@@ -95,7 +93,7 @@ const EditarCita = () => {
       estadoCita: { codigo: parseInt(formulario.estadoCitaId) },
       consultorio: { codigo: parseInt(formulario.consultorioId) },
       horarioMedico: { codigo: parseInt(formulario.horarioMedicoId) },
-      estado: true // ⚠️ Esto es necesario
+      estado: true
     };
 
     try {
@@ -104,7 +102,7 @@ const EditarCita = () => {
       navigate('/citas');
     } catch (error) {
       console.error('Error actualizando cita:', error);
-      alert('Error al actualizar cita');
+      alert('Error al actualizar la cita');
     }
   };
 
@@ -113,73 +111,80 @@ const EditarCita = () => {
       <h2 className="editar-cita-title">Editar Cita</h2>
       <form onSubmit={handleSubmit}>
         <label className="editar-cita-label">Fecha:</label>
-        <input 
-          type="date" 
-          name="fecha" 
-          value={formulario.fecha} 
-          onChange={handleChange} 
-          required 
+        <input
+          type="date"
+          name="fecha"
+          value={formulario.fecha}
+          onChange={handleChange}
+          required
+          min={hoy}
           className="editar-cita-input"
         />
 
         <label className="editar-cita-label">Hora:</label>
-        <input 
-          type="time" 
-          name="hora" 
-          value={formulario.hora} 
-          onChange={handleChange} 
-          required 
+        <input
+          type="time"
+          name="hora"
+          value={formulario.hora}
+          onChange={handleChange}
+          required
           className="editar-cita-input"
         />
 
         <label className="editar-cita-label">Paciente:</label>
-        <select 
-          name="pacienteId" 
-          value={formulario.pacienteId} 
-          onChange={handleChange} 
-          required 
+        <select
+          name="pacienteId"
+          value={formulario.pacienteId}
+          onChange={handleChange}
+          required
           className="editar-cita-select"
         >
           <option value="">Seleccione</option>
           {pacientes.map(p => (
-            <option key={p.codigo} value={p.codigo}>{p.nombre} {p.apellidoPaterno}</option>
+            <option key={p.codigo} value={p.codigo}>
+              {p.nombre} {p.apellidoPaterno}
+            </option>
           ))}
         </select>
 
         <label className="editar-cita-label">Médico:</label>
-        <select 
-          name="medicoId" 
-          value={formulario.medicoId} 
-          onChange={handleChange} 
-          required 
+        <select
+          name="medicoId"
+          value={formulario.medicoId}
+          onChange={handleChange}
+          required
           className="editar-cita-select"
         >
           <option value="">Seleccione</option>
           {medicos.map(m => (
-            <option key={m.codigo} value={m.codigo}>{m.nombre} {m.apellidoPaterno}</option>
+            <option key={m.codigo} value={m.codigo}>
+              Dr(a). {m.nombre} {m.apellidoPaterno}
+            </option>
           ))}
         </select>
 
         <label className="editar-cita-label">Empleado:</label>
-        <select 
-          name="empleadoId" 
-          value={formulario.empleadoId} 
-          onChange={handleChange} 
-          required 
+        <select
+          name="empleadoId"
+          value={formulario.empleadoId}
+          onChange={handleChange}
+          required
           className="editar-cita-select"
         >
           <option value="">Seleccione</option>
           {empleados.map(e => (
-            <option key={e.codigo} value={e.codigo}>{e.nombre} {e.apellidoPaterno}</option>
+            <option key={e.codigo} value={e.codigo}>
+              {e.nombre} {e.apellidoPaterno}
+            </option>
           ))}
         </select>
 
-        <label className="editar-cita-label">Servicio:</label>
-        <select 
-          name="servicioMedicoId" 
-          value={formulario.servicioMedicoId} 
-          onChange={handleChange} 
-          required 
+        <label className="editar-cita-label">Servicio Médico:</label>
+        <select
+          name="servicioMedicoId"
+          value={formulario.servicioMedicoId}
+          onChange={handleChange}
+          required
           className="editar-cita-select"
         >
           <option value="">Seleccione</option>
@@ -189,11 +194,11 @@ const EditarCita = () => {
         </select>
 
         <label className="editar-cita-label">Estado:</label>
-        <select 
-          name="estadoCitaId" 
-          value={formulario.estadoCitaId} 
-          onChange={handleChange} 
-          required 
+        <select
+          name="estadoCitaId"
+          value={formulario.estadoCitaId}
+          onChange={handleChange}
+          required
           className="editar-cita-select"
         >
           <option value="">Seleccione</option>
@@ -203,11 +208,11 @@ const EditarCita = () => {
         </select>
 
         <label className="editar-cita-label">Consultorio:</label>
-        <select 
-          name="consultorioId" 
-          value={formulario.consultorioId} 
-          onChange={handleChange} 
-          required 
+        <select
+          name="consultorioId"
+          value={formulario.consultorioId}
+          onChange={handleChange}
+          required
           className="editar-cita-select"
         >
           <option value="">Seleccione</option>
@@ -217,20 +222,24 @@ const EditarCita = () => {
         </select>
 
         <label className="editar-cita-label">Horario:</label>
-        <select 
-          name="horarioMedicoId" 
-          value={formulario.horarioMedicoId} 
-          onChange={handleChange} 
-          required 
+        <select
+          name="horarioMedicoId"
+          value={formulario.horarioMedicoId}
+          onChange={handleChange}
+          required
           className="editar-cita-select"
         >
           <option value="">Seleccione</option>
           {horarios.map(h => (
-            <option key={h.codigo} value={h.codigo}>{h.diaSemana} {h.horaInicio} - {h.horaFin}</option>
+            <option key={h.codigo} value={h.codigo}>
+              {h.diaSemana} {h.horaInicio} - {h.horaFin}
+            </option>
           ))}
         </select>
 
-        <button type="submit" className="editar-cita-button">Actualizar Cita</button>
+        <button type="submit" className="editar-cita-button">
+          Actualizar Cita
+        </button>
       </form>
     </div>
   );

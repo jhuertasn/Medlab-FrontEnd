@@ -100,12 +100,15 @@ const EditarEmpleado = () => {
     <div className="editar-empleado-container">
       <h2 className="editar-empleado-title">Editar Empleado</h2>
       <form onSubmit={handleSubmit}>
+
         <input 
           name="nombre" 
           placeholder="Nombre" 
           value={formulario.nombre} 
           onChange={handleChange} 
-          required 
+          required
+            minLength={2}
+            maxLength={50} 
           className="editar-empleado-input"
         />
         <input 
@@ -113,7 +116,9 @@ const EditarEmpleado = () => {
           placeholder="Apellido Paterno" 
           value={formulario.apellidoPaterno} 
           onChange={handleChange} 
-          required 
+          required
+            minLength={2}
+            maxLength={50} 
           className="editar-empleado-input"
         />
         <input 
@@ -121,7 +126,9 @@ const EditarEmpleado = () => {
           placeholder="Apellido Materno" 
           value={formulario.apellidoMaterno} 
           onChange={handleChange} 
-          required 
+          required
+            minLength={2}
+  maxLength={50} 
           className="editar-empleado-input"
         />
         <input 
@@ -129,7 +136,9 @@ const EditarEmpleado = () => {
           placeholder="DNI" 
           value={formulario.dni} 
           onChange={handleChange} 
-          required 
+          required
+            pattern="\d{8}"
+  title="El DNI debe contener 8 dígitos" 
           className="editar-empleado-input"
         />
         <input 
@@ -155,21 +164,28 @@ const EditarEmpleado = () => {
           name="celular" 
           placeholder="Celular" 
           value={formulario.celular} 
-          onChange={handleChange} 
+          onChange={handleChange}
+            required
+  pattern="\d{9}"
+  title="El número de celular debe tener 9 dígitos" 
           className="editar-empleado-input"
         />
         <input 
-          name="correo" 
+          name="correo"
+          type="email" 
           placeholder="Correo" 
           value={formulario.correo} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          required 
           className="editar-empleado-input"
         />
         <input 
           name="direccion" 
           placeholder="Dirección" 
           value={formulario.direccion} 
-          onChange={handleChange} 
+          onChange={handleChange}
+            required
+  maxLength={100} 
           className="editar-empleado-input"
         />
         <input 
@@ -177,7 +193,9 @@ const EditarEmpleado = () => {
           placeholder="Nombre de usuario" 
           value={formulario.userName} 
           onChange={handleChange} 
-          required 
+          required
+            minLength={4}
+  maxLength={30} 
           className="editar-empleado-input"
         />
         <select 
@@ -204,6 +222,7 @@ const EditarEmpleado = () => {
             <option key={r.codigo} value={r.codigo}>{r.nombre}</option>
           ))}
         </select>
+
         <button type="submit" className="editar-empleado-button">Actualizar Empleado</button>
       </form>
     </div>

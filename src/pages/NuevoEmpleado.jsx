@@ -82,7 +82,9 @@ const NuevoEmpleado = () => {
           placeholder="Nombre" 
           value={formulario.nombre} 
           onChange={handleChange} 
-          required 
+          required
+              minLength={2}
+              maxLength={50} 
           className="nuevo-empleado-input"
         />
         <input 
@@ -90,7 +92,9 @@ const NuevoEmpleado = () => {
           placeholder="Apellido Paterno" 
           value={formulario.apellidoPaterno} 
           onChange={handleChange} 
-          required 
+          required
+              minLength={2}
+              maxLength={50} 
           className="nuevo-empleado-input"
         />
         <input 
@@ -98,7 +102,9 @@ const NuevoEmpleado = () => {
           placeholder="Apellido Materno" 
           value={formulario.apellidoMaterno} 
           onChange={handleChange} 
-          required 
+          required
+              minLength={2}
+              maxLength={50} 
           className="nuevo-empleado-input"
         />
         <input 
@@ -106,7 +112,9 @@ const NuevoEmpleado = () => {
           placeholder="DNI" 
           value={formulario.dni} 
           onChange={handleChange} 
-          required 
+          required
+              pattern="\d{8}"
+              title="El DNI debe contener 8 dígitos" 
           className="nuevo-empleado-input"
         />
         <input 
@@ -133,20 +141,27 @@ const NuevoEmpleado = () => {
           placeholder="Celular" 
           value={formulario.celular} 
           onChange={handleChange} 
+              required
+              pattern="\d{9}"
+              title="El número de celular debe tener 9 dígitos"
           className="nuevo-empleado-input"
         />
         <input 
           name="correo" 
+          type="email"
           placeholder="Correo" 
           value={formulario.correo} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          required 
           className="nuevo-empleado-input"
         />
         <input 
           name="direccion" 
           placeholder="Dirección" 
           value={formulario.direccion} 
-          onChange={handleChange} 
+          onChange={handleChange}
+              required
+              maxLength={100} 
           className="nuevo-empleado-input"
         />
         <input 
@@ -154,7 +169,9 @@ const NuevoEmpleado = () => {
           placeholder="Usuario" 
           value={formulario.userName} 
           onChange={handleChange} 
-          required 
+          required
+              minLength={4}
+              maxLength={30} 
           className="nuevo-empleado-input"
         />
         <input 
@@ -163,7 +180,8 @@ const NuevoEmpleado = () => {
           type="password" 
           value={formulario.password} 
           onChange={handleChange} 
-          required 
+          required
+          minLength={6} 
           className="nuevo-empleado-input"
         />
         <select 

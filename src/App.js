@@ -16,6 +16,7 @@ import EditarEmpleado from './pages/EditarEmpleado';
 import Medicos from './pages/Medicos'; // importa el componente
 import NuevoMedico from './pages/NuevoMedico';
 import EditarMedico from './pages/EditarMedico';
+import RecuperarPassword from './components/RecuperarPassword';
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
         <Route path="/medicos" element={<Medicos />} />
         <Route path="/medico/nuevo" element={<NuevoMedico />} />
         <Route path="/medico/editar/:id" element={<EditarMedico />} />
+        <Route path="/recuperar" element={<RecuperarPassword />} />
       </Routes>
     </>
   );

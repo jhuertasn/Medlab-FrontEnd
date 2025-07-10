@@ -10,7 +10,9 @@ const PacienteForm = ({ formulario, handleChange, handleSubmit, distritos = [] }
           placeholder="Nombre" 
           value={formulario.nombre} 
           onChange={handleChange} 
-          required 
+          required
+          minLength={2}
+          maxLength={50} 
           className="paciente-form-input"
         />
         <input 
@@ -18,7 +20,9 @@ const PacienteForm = ({ formulario, handleChange, handleSubmit, distritos = [] }
           placeholder="Apellido Paterno" 
           value={formulario.apellidoPaterno} 
           onChange={handleChange} 
-          required 
+          required
+          minLength={2}
+          maxLength={50} 
           className="paciente-form-input"
         />
         <input 
@@ -26,7 +30,9 @@ const PacienteForm = ({ formulario, handleChange, handleSubmit, distritos = [] }
           placeholder="Apellido Materno" 
           value={formulario.apellidoMaterno} 
           onChange={handleChange} 
-          required 
+          required
+          minLength={2}
+          maxLength={50} 
           className="paciente-form-input"
         />
         <input 
@@ -34,7 +40,9 @@ const PacienteForm = ({ formulario, handleChange, handleSubmit, distritos = [] }
           placeholder="DNI" 
           value={formulario.dni} 
           onChange={handleChange} 
-          required 
+          required
+          pattern="\d{8}"
+          title="El DNI debe tener 8 dígitos numéricos" 
           className="paciente-form-input"
         />
         <input 
@@ -62,21 +70,27 @@ const PacienteForm = ({ formulario, handleChange, handleSubmit, distritos = [] }
           name="celular" 
           placeholder="Celular" 
           value={formulario.celular} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          pattern="\d{9}"
+          title="El número celular debe tener 9 dígitos" 
           className="paciente-form-input"
         />
         <input 
           name="correo" 
           placeholder="Correo" 
           value={formulario.correo} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          required
+          maxLength={100} 
           className="paciente-form-input"
         />
         <input 
           name="direccion" 
           placeholder="Dirección" 
           value={formulario.direccion} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          required
+          maxLength={100} 
           className="paciente-form-input"
         />
 

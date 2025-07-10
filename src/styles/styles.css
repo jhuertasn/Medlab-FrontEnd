@@ -96,6 +96,17 @@
   box-shadow: 0 6px 8px rgba(58, 123, 213, 0.3);
 }
 
+.input-error {
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+
 /* Estilos para el Dashboard */
 .dashboard-container {
   padding: 2rem;
@@ -565,6 +576,111 @@
 .paciente-form-button:hover {
   background-color: #218838; /* Color más oscuro al pasar el mouse */
 }
+
+
+/* Estilos para el contenedor del Dashboard */
+.dashboard-container {
+  padding: 2rem;
+  background-color: #f9f9f9; /* Color de fondo suave */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px; /* Ancho máximo del contenedor */
+  margin: 0 auto; /* Centrar el contenedor */
+}
+
+/* Títulos del Dashboard */
+.dashboard-title {
+  color: #2c3e50;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.dashboard-subtitle {
+  color: #7d7d7d;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Estilos para las tarjetas del Dashboard */
+.dashboard-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.dashboard-card {
+  background-color: #ffffff; /* Fondo blanco para las tarjetas */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  flex: 1 1 30%; /* Flex para que las tarjetas se ajusten */
+  margin: 0.5rem; /* Espaciado entre tarjetas */
+  text-align: center; /* Centrar texto */
+}
+
+.dashboard-card h3 {
+  color: #007bff; /* Color azul para los títulos de las tarjetas */
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-card p {
+  font-size: 1.5rem;
+  color: #333; /* Color del texto */
+}
+
+/* Estilos para el gráfico */
+.dashboard-chart {
+  margin-top: 2rem;
+}
+
+/* Estilos para las secciones de misión y visión */
+.dashboard-section {
+  margin-top: 2rem;
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-section h2 {
+  color: #007bff; /* Color azul para los títulos */
+}
+
+.dashboard-section p {
+  color: #555; /* Color del texto */
+}
+
+/* Botones del Dashboard */
+.dashboard-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 0.5rem; /* Espaciado entre botones */
+}
+
+.dashboard-button-primary {
+  background-color: #007bff; /* Color azul */
+  color: white;
+}
+
+.dashboard-button-primary:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+}
+
+.dashboard-button-danger {
+  background-color: #e74c3c; /* Color rojo */
+  color: white;
+}
+
+.dashboard-button-danger:hover {
+  background-color: #c0392b; /* Color más oscuro al pasar el mouse */
+}
+
 
 
 /* Estilos para la pantalla de Editar Paciente */

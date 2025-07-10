@@ -9,9 +9,9 @@ const NuevaCita = () => {
     hora: '',
     pacienteId: '',
     medicoId: '',
-    empleadoId: '', // Asegúrate de que este campo esté presente
+    empleadoId: '',
     servicioMedicoId: '',
-    estadoCitaId: '', // Asegúrate de que este campo esté presente
+    estadoCitaId: '',
     consultorioId: '',
     horarioMedicoId: ''
   });
@@ -26,6 +26,8 @@ const NuevaCita = () => {
   const [busqueda, setBusqueda] = useState('');
   const [sugerencias, setSugerencias] = useState([]);
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
+
+  const hoy = new Date().toISOString().split('T')[0];
 
   const buscarPacientes = async (texto) => {
     try {
@@ -52,9 +54,9 @@ const NuevaCita = () => {
         const urls = [
           ['paciente', setPacientes],
           ['medico', setMedicos],
-          ['empleado', setEmpleados], // Asegúrate de cargar empleados
+          ['empleado', setEmpleados],
           ['servicios', setServicios],
-          ['estado-cita', setEstados], // Asegúrate de cargar estados
+          ['estado-cita', setEstados],
           ['consultorio', setConsultorios],
           ['horarios', setHorarios]
         ];
@@ -78,8 +80,12 @@ const NuevaCita = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validar que todos los campos requeridos estén llenos
-    if (!formulario.fecha || !formulario.hora || !formulario.pacienteId || !formulario.medicoId || !formulario.empleadoId || !formulario.servicioMedicoId || !formulario.estadoCitaId || !formulario.consultorioId || !formulario.horarioMedicoId) {
+    if (!formulario.pacienteId) {
+      alert('Debe seleccionar un paciente de la lista.');
+      return;
+    }
+
+    if (!formulario.fecha || !formulario.hora || !formulario.medicoId || !formulario.empleadoId || !formulario.servicioMedicoId || !formulario.estadoCitaId || !formulario.consultorioId || !formulario.horarioMedicoId) {
       alert('Por favor, complete todos los campos requeridos.');
       return;
     }
@@ -89,14 +95,12 @@ const NuevaCita = () => {
       hora: formulario.hora,
       paciente: { codigo: parseInt(formulario.pacienteId) },
       medico: { codigo: parseInt(formulario.medicoId) },
-      empleado: { codigo: parseInt(formulario.empleadoId) }, // Asegúrate de incluir el empleado
+      empleado: { codigo: parseInt(formulario.empleadoId) },
       servicioMedico: { codigo: parseInt(formulario.servicioMedicoId) },
-      estadoCita: { codigo: parseInt(formulario.estadoCitaId) }, // Asegúrate de incluir el estado de cita
+      estadoCita: { codigo: parseInt(formulario.estadoCitaId) },
       consultorio: { codigo: parseInt(formulario.consultorioId) },
       horarioMedico: { codigo: parseInt(formulario.horarioMedicoId) }
     };
-
-    console.log('Payload a enviar:', payload);
 
     try {
       await axiosInstance.post('/citas', payload);
@@ -112,29 +116,28 @@ const NuevaCita = () => {
   return (
     <div className="nueva-cita-container">
       <h2 className="nueva-cita-title">Registrar Nueva Cita Médica</h2>
-      
       <form onSubmit={handleSubmit}>
         <div className="form-columns">
-          {/* Columna Izquierda */}
           <div className="form-field">
             <label className="nueva-cita-label">Fecha</label>
-            <input 
-              type="date" 
+            <input
+              type="date"
               name="fecha"
-              className="nueva-cita-input" 
-              onChange={handleChange} 
-              required 
+              className="nueva-cita-input"
+              onChange={handleChange}
+              required
+              min={hoy}
             />
           </div>
 
           <div className="form-group">
             <label className="nueva-cita-label">Hora</label>
-            <input 
-              type="time" 
-              name="hora" 
-              className="nueva-cita-input" 
-              onChange={handleChange} 
-              required 
+            <input
+              type="time"
+              name="hora"
+              className="nueva-cita-input"
+              onChange={handleChange}
+              required
             />
           </div>
 
@@ -167,7 +170,6 @@ const NuevaCita = () => {
             )}
           </div>
 
-          {/* Columna Derecha */}
           <div className="form-group">
             <label className="nueva-cita-label">Médico</label>
             <select name="medicoId" className="nueva-cita-select" onChange={handleChange} required>
@@ -203,7 +205,6 @@ const NuevaCita = () => {
           </div>
         </div>
 
-        {/* Campos secundarios */}
         <div className="form-columns">
           <div className="form-group">
             <label className="nueva-cita-label">Consultorio</label>
