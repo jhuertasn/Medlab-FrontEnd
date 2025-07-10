@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import PacienteForm from './PacienteForm';
 
 const NuevoPaciente = () => {
@@ -22,11 +22,9 @@ const NuevoPaciente = () => {
 
   useEffect(() => {
     const fetchDistritos = async () => {
-      const token = btoa(`${localStorage.getItem('usuario')}:${localStorage.getItem('contraseña')}`);
+      
       try {
-        const res = await axios.get('http://localhost:8898/medlab/distrito', {
-          headers: { Authorization: `Basic ${token}` }
-        });
+        const res = await axiosInstance.get('/distrito');
         setDistritos(res.data);
       } catch (err) {
         console.error('Error al cargar distritos:', err);
@@ -51,11 +49,7 @@ const NuevoPaciente = () => {
     const token = btoa(`${localStorage.getItem('usuario')}:${localStorage.getItem('contraseña')}`);
 
     try {
-      await axios.post('http://localhost:8898/medlab/paciente', payload, {
-        headers: {
-          Authorization: `Basic ${token}`
-        }
-      });
+      await axiosInstance.post('/paciente', payload);
       alert('Paciente registrado correctamente');
       navigate('/pacientes');
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 const NuevoEmpleado = () => {
@@ -22,17 +22,14 @@ const NuevoEmpleado = () => {
     rolId: ''
   });
 
-  const auth = {
-    username: localStorage.getItem('usuario'),
-    password: localStorage.getItem('contraseña')
-  };
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [resDistritos, resRoles] = await Promise.all([
-          axios.get('http://localhost:8898/medlab/distrito', { auth }),
-          axios.get('http://localhost:8898/medlab/rol', { auth })
+          axiosInstance.get('/distrito'),
+          axiosInstance.get('/rol')
         ]);
         setDistritos(resDistritos.data);
         setRoles(resRoles.data);
@@ -67,7 +64,7 @@ const NuevoEmpleado = () => {
     };
 
     try {
-      await axios.post('http://localhost:8898/medlab/empleado', payload, { auth });
+      await axiosInstance.post('/empleado', payload);
       alert('Empleado registrado con éxito');
       navigate('/empleados');
     } catch (error) {

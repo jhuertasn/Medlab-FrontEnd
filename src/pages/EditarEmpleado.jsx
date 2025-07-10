@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const EditarEmpleado = () => {
@@ -24,18 +24,14 @@ const EditarEmpleado = () => {
   const [distritos, setDistritos] = useState([]);
   const [roles, setRoles] = useState([]);
 
-  const auth = {
-    username: localStorage.getItem('usuario'),
-    password: localStorage.getItem('contraseña')
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const [resEmpleado, resDistritos, resRoles] = await Promise.all([
-          axios.get(`http://localhost:8898/medlab/empleado/${id}`, { auth }),
-          axios.get(`http://localhost:8898/medlab/distrito`, { auth }),
-          axios.get(`http://localhost:8898/medlab/rol`, { auth })
+          axiosInstance.get(`/empleado/${id}`),
+          axiosInstance.get('/distrito'),
+          axiosInstance.get('/rol')
         ]);
 
         const e = resEmpleado.data;
@@ -91,7 +87,7 @@ const EditarEmpleado = () => {
     console.log("Payload que se envía desde React:", JSON.stringify(payload, null, 2));
 
     try {
-      await axios.put(`http://localhost:8898/medlab/empleado/${id}`, payload, { auth });
+      await axiosInstance.put(`/empleado/${id}`, payload);
       alert('Empleado actualizado correctamente');
       navigate('/empleados');
     } catch (error) {

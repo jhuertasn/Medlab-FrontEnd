@@ -4,7 +4,8 @@ import '../styles/styles.css'; // Asegúrate de que la ruta sea correcta
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const usuario = localStorage.getItem('usuario');
+  const username = localStorage.getItem('username'); // no 'usuario'
+
 
   const handleLogout = () => {
     localStorage.removeItem('usuario'); // 🔐 Elimina usuario logueado
@@ -14,7 +15,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-container">
       <h1 className="dashboard-title">Bienvenido a MedLab</h1>
-      <p className="dashboard-subtitle">Usuario autenticado: <strong>{usuario}</strong></p>
+      <p className="dashboard-subtitle">Usuario autenticado: <strong>{username}</strong></p>
 
       {/*<button
         onClick={() => navigate('/citas')}

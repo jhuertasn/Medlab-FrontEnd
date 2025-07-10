@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 const NuevaCita = () => {
@@ -27,19 +27,9 @@ const NuevaCita = () => {
   const [sugerencias, setSugerencias] = useState([]);
   const [pacienteSeleccionado, setPacienteSeleccionado] = useState(null);
 
-  const auth = {
-    username: localStorage.getItem('usuario'),
-    password: localStorage.getItem('contraseña')
-  };
-
   const buscarPacientes = async (texto) => {
     try {
-      const token = btoa(`${localStorage.getItem('usuario')}:${localStorage.getItem('contraseña')}`);
-      const response = await axios.get(`http://localhost:8898/medlab/paciente/buscar?nombre=${encodeURIComponent(texto)}`, {
-        headers: {
-          Authorization: `Basic ${token}`
-        }
-      });
+      const response = await axiosInstance.get(`/paciente/buscar?nombre=${encodeURIComponent(texto)}`);
       setSugerencias(response.data);
     } catch (error) {
       console.error('Error buscando pacientes', error);
@@ -70,7 +60,7 @@ const NuevaCita = () => {
         ];
 
         for (let [endpoint, setter] of urls) {
-          const res = await axios.get(`http://localhost:8898/medlab/${endpoint}`, { auth });
+          const res = await axiosInstance.get(`/${endpoint}`);
           setter(res.data);
         }
       } catch (error) {
@@ -109,7 +99,7 @@ const NuevaCita = () => {
     console.log('Payload a enviar:', payload);
 
     try {
-      await axios.post('http://localhost:8898/medlab/citas', payload, { auth });
+      await axiosInstance.post('/citas', payload);
       alert('Cita registrada correctamente');
       navigate('/citas');
       window.location.reload();

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/styles.css'; // Asegúrate de que la ruta sea correcta
+import { jwtDecode } from 'jwt-decode';
+
 
 function LoginForm() {
   const [usuario, setUsuario] = useState('');
@@ -9,41 +11,49 @@ function LoginForm() {
   const [autenticado, setAutenticado] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) =>  {
+  e.preventDefault();
 
-    const auth = {
-      username: usuario,
-      password: contraseña
-    };
+  const auth = {
+    username: usuario,
+    password: contraseña,
+  };
 
-    try {
+  try {
+    // 1. Solicita el token
+    const response = await axios.post('http://localhost:8898/medlab/authenticate', auth);
+    const { token } = response.data;
 
-    const response = await axios.get('http://localhost:8898/medlab/empleado/perfil', {
-      auth
-    });  
+    // 2. Decodifica el token
+    const decoded = jwtDecode(token);
+    console.log('Token decodificado:', decoded);
 
-    const perfil = response.data; // ✅ Aquí declaras perfil recién
-    console.log('Empleado:', perfil);
+    const username = decoded.sub;
+    const roles = decoded.ROLE || decoded.roles || []; // ajusta según el contenido exacto del JWT
+          const rol = Array.isArray(roles)
+        ? roles[0].replace('ROLE_', '').toUpperCase()
+        : roles.replace('ROLE_', '').toUpperCase();
 
-    localStorage.setItem('usuario', usuario);
-    localStorage.setItem('contraseña', contraseña);
-    localStorage.setItem('rol', perfil.rol.nombre); // Guarda el rol
+    // 3. Guarda token y datos en localStorage
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
+     localStorage.setItem('rol', rol); // ADMIN o USER
 
+    // 4. Redirige al dashboard
     setAutenticado(true);
     navigate('/dashboard');
 
   } catch (error) {
-  console.error('Error de autenticación:', error);
-  if (error.response) {
-    console.error('Error de backend:', error.response.data);
-  } else if (error.request) {
-    console.error('No se recibió respuesta del backend:', error.request);
-  } else {
-    console.error('Error al configurar la solicitud:', error.message);
+    console.error('Error de autenticación:', error);
+    if (error.response) {
+      console.error('Error de backend:', error.response.data);
+    } else if (error.request) {
+      console.error('No se recibió respuesta del backend:', error.request);
+    } else {
+      console.error('Error al configurar la solicitud:', error.message);
+    }
   }
-}
-  };
+};
 
   // Redirige si ya está autenticado
   if (autenticado) {

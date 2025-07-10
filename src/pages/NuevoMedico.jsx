@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 import '../styles/styles.css'; // Asegúrate de importar el archivo CSS
 
@@ -22,18 +22,16 @@ const NuevoMedico = () => {
     especialidadId: ''
   });
 
-  const auth = {
-    username: localStorage.getItem('usuario'),
-    password: localStorage.getItem('contraseña')
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [resDistritos, resEspecialidades] = await Promise.all([
-          axios.get('http://localhost:8898/medlab/distrito', { auth }),
-          axios.get('http://localhost:8898/medlab/especialidad', { auth })
-        ]);
+          const [resDistritos, resEspecialidades] = await Promise.all([
+            axiosInstance.get('/distrito'),
+            axiosInstance.get('/especialidad')
+          ]);
+
+
         setDistritos(resDistritos.data);
         setEspecialidades(resEspecialidades.data);
       } catch (error) {
@@ -67,7 +65,7 @@ const NuevoMedico = () => {
     };
 
     try {
-      await axios.post('http://localhost:8898/medlab/medico', payload, { auth });
+      await axiosInstance.post('/medico', payload);
       alert('Médico registrado con éxito');
       navigate('/medicos');
       window.location.reload(); // 🔁 recarga la lista al volver

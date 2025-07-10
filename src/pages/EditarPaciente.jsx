@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const EditarPaciente = () => {
@@ -21,21 +21,11 @@ const EditarPaciente = () => {
 
   const [distritos, setDistritos] = useState([]);
 
-  const auth = {
-    username: localStorage.getItem('usuario'),
-    password: localStorage.getItem('contraseña')
-  };
-
   // Cargar datos del paciente
   useEffect(() => {
     const fetchPaciente = async () => {
       try {
-        const token = btoa(`${auth.username}:${auth.password}`);
-        const res = await axios.get(`http://localhost:8898/medlab/paciente/${id}`, {
-          headers: {
-            Authorization: `Basic ${token}`
-          }
-        });
+        const res = await axiosInstance.get(`/paciente/${id}`);
 
         const paciente = res.data;
         setFormulario({
@@ -57,7 +47,7 @@ const EditarPaciente = () => {
 
     const fetchDistritos = async () => {
       try {
-        const res = await axios.get('http://localhost:8898/medlab/distrito', { auth });
+        const res = await axiosInstance.get('/distrito');
         setDistritos(res.data);
       } catch (error) {
         console.error('Error al cargar distritos:', error);
@@ -93,12 +83,8 @@ const EditarPaciente = () => {
     console.log('Payload enviado:', payload); // 👀 mira el contenido en consola
 
     try {
-      const token = btoa(`${localStorage.getItem('usuario')}:${localStorage.getItem('contraseña')}`);
-      await axios.put(`http://localhost:8898/medlab/paciente/${id}`, payload, {
-        headers: {
-          Authorization: `Basic ${token}`
-        }
-      });
+      await axiosInstance.put(`/paciente/${id}`, payload);
+
       alert('Paciente actualizado con éxito');
       navigate('/pacientes');
     } catch (error) {

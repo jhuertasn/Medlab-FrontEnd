@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import '../styles/styles.css'; // Asegúrate de que la ruta sea correcta
 
 const Navbar = () => {
-  const rol = localStorage.getItem('rol'); // 'ADMIN' o 'USER'
+  const rol = (localStorage.getItem('rol') || '').toUpperCase(); // 'ADMIN' o 'USER'
   const navigate = useNavigate();
 
   const cerrarSesion = () => {

@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance'; // ✅ Usa tu servicio con JWT
 import { useNavigate } from 'react-router-dom';
 
 const Pacientes = () => {
   const [pacientes, setPacientes] = useState([]);
   const navigate = useNavigate();
 
-  const token = btoa(`${localStorage.getItem('usuario')}:${localStorage.getItem('contraseña')}`);
-
   const cargarPacientes = async () => {
     try {
-      const response = await axios.get('http://localhost:8898/medlab/paciente/custom', {
-        headers: {
-          Authorization: `Basic ${token}`
-        }
-      });
+      const response = await axiosInstance.get('/paciente/custom'); // ✅ Ya no usas axios ni Basic Auth
       setPacientes(response.data);
     } catch (error) {
       console.error('Error cargando pacientes', error);
@@ -24,17 +18,14 @@ const Pacientes = () => {
   const eliminarPaciente = async (id) => {
     if (!window.confirm('¿Eliminar paciente?')) return;
     try {
-      await axios.delete(`http://localhost:8898/medlab/paciente/${id}`, {
-        headers: {
-          Authorization: `Basic ${token}`
-        }
-      });
+      await axiosInstance.delete(`/paciente/${id}`); // ✅ Eliminación también con JWT
       alert('Paciente eliminado');
       cargarPacientes();
     } catch (error) {
       console.error('Error al eliminar', error);
     }
   };
+
 
   useEffect(() => {
     cargarPacientes();

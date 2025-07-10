@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import '../styles/styles.css'; // Asegúrate de importar el archivo CSS
 
 const EditarMedico = () => {
@@ -33,7 +33,7 @@ const EditarMedico = () => {
   useEffect(() => {
     const cargarMedico = async () => {
       try {
-        const res = await axios.get(`http://localhost:8898/medlab/medico/${id}`, { auth });
+        const res = await axiosInstance.get(`/medico/${id}`);
         const m = res.data;
         setFormulario({
           nombre: m.nombre,
@@ -57,10 +57,11 @@ const EditarMedico = () => {
 
     const cargarListas = async () => {
       try {
-        const [resDistritos, resEspecialidades] = await Promise.all([
-          axios.get('http://localhost:8898/medlab/distrito', { auth }),
-          axios.get('http://localhost:8898/medlab/especialidad', { auth })
-        ]);
+          const [resDistritos, resEspecialidades] = await Promise.all([
+            axiosInstance.get('/distrito'),
+            axiosInstance.get('/especialidad')
+          ]);
+          
         setDistritos(resDistritos.data);
         setEspecialidades(resEspecialidades.data);
       } catch (error) {
@@ -95,7 +96,7 @@ const EditarMedico = () => {
     console.log("Payload enviado:", JSON.stringify(payload, null, 2)); // 🟡
 
     try {
-      await axios.put(`http://localhost:8898/medlab/medico/${id}`, payload, { auth });
+      await axiosInstance.put(`/medico/${id}`, payload);
       alert('Médico actualizado correctamente');
       navigate('/medicos');
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 const Citas = () => {
@@ -12,12 +12,7 @@ const Citas = () => {
     if (!window.confirm('¿Deseas eliminar esta cita?')) return;
 
     try {
-      const token = btoa(`${localStorage.getItem('usuario')}:${localStorage.getItem('contraseña')}`);
-      await axios.delete(`http://localhost:8898/medlab/citas/${codigo}`, {
-        headers: {
-          Authorization: `Basic ${token}`
-        }
-      });
+      await axiosInstance.delete(`/citas/${codigo}`);
       alert('Cita eliminada correctamente');
       setCitas(prev => prev.filter(c => c.codigo !== codigo));
     } catch (error) {
@@ -30,11 +25,7 @@ const Citas = () => {
     const fetchCitas = async () => {
       try {
         const token = btoa(`${localStorage.getItem('usuario')}:${localStorage.getItem('contraseña')}`);
-        const response = await axios.get('http://localhost:8898/medlab/citas/custom', {
-          headers: {
-            Authorization: `Basic ${token}`
-          }
-        });
+        const response = await axiosInstance.get('/citas/custom');
         setCitas(response.data);
         setLoading(false);
       } catch (err) {
@@ -68,6 +59,7 @@ const Citas = () => {
             <th>Hora</th>
             <th>Paciente</th>
             <th>Médico</th>
+            <th>Precio</th>
             <th>Estado</th>
             <th>Acciones</th>
           </tr>
@@ -80,6 +72,7 @@ const Citas = () => {
                 <td>{cita.hora}</td>
                 <td>{cita.paciente?.nombre} {cita.paciente?.apellidoPaterno}</td>
                 <td>{cita.medico?.nombre} {cita.medico?.apellidoPaterno}</td>
+                <td>{cita.servicioMedico?.precio?.toFixed(2)}</td>
                 <td>{cita.estadoCita?.nombre}</td>
                 <td>
                   <button

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/styles.css'; // Asegúrate de importar el archivo CSS
+import axiosInstance from '../services/axiosInstance';
 
 const Empleado = () => {
   const [empleados, setEmpleados] = useState([]);
@@ -12,21 +12,20 @@ const Empleado = () => {
     password: localStorage.getItem('contraseña')
   };
 
-  const cargarEmpleados = async () => {
-    try {
-      const res = await axios.get('http://localhost:8898/medlab/empleado', { auth });
-      const activos = res.data.filter(e => e.estado === true);
-      setEmpleados(activos);
-    } catch (error) {
-      console.error('Error al cargar empleados:', error);
-    }
-  };
+const cargarEmpleados = async () => {
+  try {
+    const response = await axiosInstance.get('/empleado/custom');
+    setEmpleados(response.data);
+  } catch (error) {
+    console.error('Error al cargar empleados:', error);
+  }
+};
 
   const eliminarEmpleado = async (id) => {
     if (!window.confirm('¿Deseas eliminar este empleado?')) return;
     try {
       console.log("Eliminando empleado con ID:", id);
-      await axios.delete(`http://localhost:8898/medlab/empleado/${id}`, { auth });
+      await axiosInstance.delete(`/empleado/${id}`);
       alert("Empleado eliminado");
       cargarEmpleados(); // asegúrate de que solo carga los activos
     } catch (error) {

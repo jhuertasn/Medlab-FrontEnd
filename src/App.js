@@ -25,7 +25,7 @@ function App() {
 
   return (
     <>
-     {isAuthenticated && !isLoginPage && <Navbar />}
+     {localStorage.getItem('token') && <Navbar />} {/* ✅ Mostrar solo si está logueado */}
      <Routes>
         <Route path="/" element={<LoginForm />} />
         <Route path="/dashboard" element={<Dashboard />} />

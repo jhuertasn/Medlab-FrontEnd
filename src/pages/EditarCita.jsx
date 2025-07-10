@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../services/axiosInstance';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditarCita = () => {
@@ -26,21 +26,13 @@ const EditarCita = () => {
   const [consultorios, setConsultorios] = useState([]);
   const [horarios, setHorarios] = useState([]);
 
-  const auth = {
-    username: localStorage.getItem('usuario'),
-    password: localStorage.getItem('contraseña')
-  };
+
 
   // Cargar cita actual
   useEffect(() => {
     const cargarCita = async () => {
       try {
-        const token = btoa(`${auth.username}:${auth.password}`);
-        const res = await axios.get(`http://localhost:8898/medlab/citas/${id}`, {
-          headers: {
-            Authorization: `Basic ${token}`
-          }
-        });
+        const res = await axiosInstance.get(`/citas/${id}`);
         const cita = res.data;
         setFormulario({
           fecha: cita.fecha,
@@ -75,7 +67,7 @@ const EditarCita = () => {
         ];
 
         for (let [endpoint, setter] of urls) {
-          const res = await axios.get(`http://localhost:8898/medlab/${endpoint}`, { auth });
+          const res = await axiosInstance.get(`/${endpoint}`);
           setter(res.data);
         }
       } catch (error) {
@@ -107,12 +99,7 @@ const EditarCita = () => {
     };
 
     try {
-      const token = btoa(`${auth.username}:${auth.password}`);
-      await axios.put(`http://localhost:8898/medlab/citas/${id}`, payload, {
-        headers: {
-          Authorization: `Basic ${token}`
-        }
-      });
+      await axiosInstance.put(`/citas/${id}`, payload);
       alert('Cita actualizada con éxito');
       navigate('/citas');
     } catch (error) {
