@@ -180,8 +180,6 @@ const NuevoMedico = () => {
   value={formulario.cmp}
   onChange={handleChange}
   required
-  pattern="\d{6}"
-  title="El CMP debe contener 6 dígitos"
 />
  
         <select className="nuevo-medico-select" name="distritoId" value={formulario.distritoId} onChange={handleChange} required>

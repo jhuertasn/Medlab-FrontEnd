@@ -46,6 +46,7 @@ const Pacientes = () => {
             <th>Nombre</th>
             <th>Apellido</th>
             <th>DNI</th>
+            <th>Celular</th>
             <th>Correo</th>
             <th>Acciones</th>
           </tr>
@@ -56,6 +57,7 @@ const Pacientes = () => {
               <td>{p.nombre}</td>
               <td>{p.apellidoPaterno}</td>
               <td>{p.dni}</td>
+              <td>{p.celular}</td>
               <td>{p.correo}</td>
               <td>
                 <button 

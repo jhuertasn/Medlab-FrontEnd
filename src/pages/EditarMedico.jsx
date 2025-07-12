@@ -236,8 +236,6 @@ const EditarMedico = () => {
   onChange={handleChange}
   placeholder="CMP"
   required
-  pattern="\d{6}"
-  title="El CMP debe contener 6 dígitos"
 />
 
         <button type="submit" className="editar-medico-button">Actualizar Médico</button>
